@@ -1,6 +1,18 @@
 import os
+import re
+import shutil
 import PyPDF2 
 from players import players_list, three_names_list, four_names_list
+from teams import teams_list
+
+def is_date(string):
+    if 'Date' in string:
+        array = string.split('\n')
+        for a in array:
+            r = re.compile('.*/.*/.*')
+            if r.match(a) is not None:
+               return a
+        return None
  
 def rem_every_nth(lst, n):
     del lst[n-1::n]
@@ -36,30 +48,48 @@ def split100(plist):
 '''
 MAIN FUNCTION
 '''
+SRC_DIRECTORY = 'stats'
+DST_DIRECTORY = 'archive'
 if __name__ == '__main__':
-    DIRECTORY = 'stats'
-    for f in os.listdir(DIRECTORY):
-        path = os.path.join(DIRECTORY, f)
-        pdfFileObj = open(path, 'rb') 
+    for f in os.listdir(SRC_DIRECTORY):
+        source = os.path.join(SRC_DIRECTORY, f)
+        pdfFileObj = open(source, 'rb') 
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
         pageObj = pdfReader.getPage(0) 
 
         #print(pageObj.extractText()) 
         all = pageObj.extractText()
+        #print(all)
         all = all.split(' ')
+        DATE = None
+        for t in all:
+            DATE = is_date(t)
+            if DATE is not None:
+                break
+
         all = rem_char(all)
         all = rem_emp(all)
         all = split100(all)
-        #print(all)
+            
+        # TODO: Isti priimki različnih imen, uničijo algoritem
 
         STATLEN = 20
         players = []
+        teams = []
         for t in all:
             ok = False
             for p in players_list:
                 if p in t and not ok:
                     players.append([p, all.index(t)])
                     ok = True
+
+            for x in teams_list:
+                if x in t and x not in teams:
+                    teams.append(x)
+
+        print(teams)
+        assert DATE is not None
+        print(DATE)
 
         # extract stats
         stats = {}
@@ -83,7 +113,6 @@ if __name__ == '__main__':
                 outv.append(v)
             return outv
 
-
         # Clean stats
         cstats = {}
         for k,v in stats.items():
@@ -95,8 +124,10 @@ if __name__ == '__main__':
 
         #print(cstats)
         for k,v in cstats.items():
-            print(k, v)
+            #print(k, v)
             assert len(v) == 17
 
          
+        dest = os.path.join(DST_DIRECTORY, f)
         pdfFileObj.close()
+        #shutil.move(source, dest)
