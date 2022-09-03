@@ -4,6 +4,7 @@ import shutil
 import PyPDF2 
 from players import players_list, three_names_list, four_names_list
 from teams import teams_list
+from full_names import fullnames_list
 
 def is_date(string):
     if 'Date' in string:
@@ -57,8 +58,19 @@ if __name__ == '__main__':
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
         pageObj = pdfReader.getPage(0) 
 
-        #print(pageObj.extractText()) 
         all = pageObj.extractText()
+        #print(pageObj.extractText()) 
+
+        # Extract full names 
+        names = []
+        tmp = all.split('\n')
+        for a in tmp:
+            #print(a)
+            for name in fullnames_list:
+                if name in a:
+                    names.append(name)
+        print(names)
+
         #print(all)
         all = all.split(' ')
         DATE = None
@@ -87,12 +99,14 @@ if __name__ == '__main__':
                 if x in t and x not in teams:
                     teams.append(x)
 
-        print(teams)
+        #print(teams)
         assert DATE is not None
-        print(DATE)
+        #print(DATE)
 
         # extract stats
         stats = {}
+        relatives = {}
+        # priimek: indeks
         for p,i in players:
             a = 0
             # Filter longer names
@@ -100,7 +114,25 @@ if __name__ == '__main__':
                 a = 1
             if p in four_names_list:
                 a = 2
-            stats[p] = all[(i+a+2):(i+a+STATLEN)]
+            opts = []
+            for n in fullnames_list:
+                if p in n:
+                    opts.append(n)
+            #print(opts)
+
+            finalp = None
+            if len(opts) > 1:
+                name = all[(i+a+1):(i+a+2)]
+                for o in opts:
+                    if name[0] in o:
+                        print(name[0])
+                        finalp = o
+                        break
+            else:
+                finalp = opts[0]
+
+            assert finalp is not None
+            stats[finalp] = all[(i+a+2):(i+a+STATLEN)]
 
         def cl(values):
             outv = []
