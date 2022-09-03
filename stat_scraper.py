@@ -4,6 +4,7 @@ import shutil
 import PyPDF2 
 from players import players_list, three_names_list, four_names_list
 from teams import teams_list
+from full_names import fullnames_list
 
 def is_date(string):
     if 'Date' in string:
@@ -57,8 +58,18 @@ if __name__ == '__main__':
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
         pageObj = pdfReader.getPage(0) 
 
-        #print(pageObj.extractText()) 
         all = pageObj.extractText()
+        #print(pageObj.extractText()) 
+
+        # Extract full names 
+        names = []
+        tmp = all.split('\n')
+        for a in tmp:
+            #print(a)
+            for name in fullnames_list:
+                if name in a:
+                    names.append(name)
+
         #print(all)
         all = all.split(' ')
         DATE = None
@@ -87,9 +98,9 @@ if __name__ == '__main__':
                 if x in t and x not in teams:
                     teams.append(x)
 
-        print(teams)
+        #print(teams)
         assert DATE is not None
-        print(DATE)
+        #print(DATE)
 
         # extract stats
         stats = {}
