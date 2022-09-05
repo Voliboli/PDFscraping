@@ -69,7 +69,6 @@ if __name__ == '__main__':
             for name in fullnames_list:
                 if name in a:
                     names.append(name)
-        print(names)
 
         #print(all)
         all = all.split(' ')
