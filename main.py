@@ -3,7 +3,6 @@ import os
 import tabula as tb
 from constants import *
 import time
-from threading import Thread
 import multiprocessing
 
 # metadata
@@ -97,23 +96,23 @@ def extract_players(upper_bound, lower_bound, ateam, file):
 
     players = {}
     for (a, b, c, d, e, f, g, h, j, k, l, m, n, o, p, r, s, u) in zip(names, 
-                                                                        team_votes, 
-                                                                        team_points_tot, 
-                                                                        team_points_bp, 
-                                                                        team_points_wl, 
-                                                                        team_serve_tot, 
-                                                                        team_serve_err, 
-                                                                        team_serve_pts, 
-                                                                        team_rec_tot,
-                                                                        team_rec_err,
-                                                                        team_rec_pos,
-                                                                        team_rec_exc,
-                                                                        team_att_tot,
-                                                                        team_att_err,
-                                                                        team_att_blk,
-                                                                        team_att_pts, 
-                                                                        team_att_exc,
-                                                                        team_blk):
+                                                                    team_votes, 
+                                                                    team_points_tot, 
+                                                                    team_points_bp, 
+                                                                    team_points_wl, 
+                                                                    team_serve_tot, 
+                                                                    team_serve_err, 
+                                                                    team_serve_pts, 
+                                                                    team_rec_tot,
+                                                                    team_rec_err,
+                                                                    team_rec_pos,
+                                                                    team_rec_exc,
+                                                                    team_att_tot,
+                                                                    team_att_err,
+                                                                    team_att_blk,
+                                                                    team_att_pts, 
+                                                                    team_att_exc,
+                                                                    team_blk):
         players[a] = [b, c, d, e, f, g, h, j, k, l, m, n, o, p, r, s, u]
 
     return players
@@ -133,19 +132,22 @@ def process_pdf(file):
     date = tb.read_pdf(file, area = (105, 70, 115, 150), pages = '1')[0]
     location = tb.read_pdf(file, area = (120, 70, 135, 150), pages = '1')[0]
 
-    players1 = extract_players(TEAM1_UB, TEAM1_LB, ateam1, file)
-    players2 = extract_players(TEAM2_UB, TEAM2_LB, ateam2, file)
+    conf = [(TEAM1_UB, TEAM1_LB, ateam1, file), (TEAM2_UB, TEAM2_LB, ateam2, file)]
+    out = []
+    with multiprocessing.Pool() as pool:
+	    # call the function for each item in parallel
+        for players in pool.starmap(extract_players, conf):
+            out.append(players)
  
-    return players1, players2
+    return out
 
 if __name__ == '__main__':
     start = time.time()
 
-    files = [os.path.join(STAT_DIRECTORY, f) for f in os.listdir(STAT_DIRECTORY)]
-    with multiprocessing.Pool() as pool:
-	    # call the function for each item in parallel
-        for p1, p2 in pool.map(process_pdf, files):
-            print(p1, p2)
+    for f in os.listdir(STAT_DIRECTORY):
+        file = os.path.join(STAT_DIRECTORY, f) 
+        p1, p2 = process_pdf(file)
+        print(p1, p2)
 
     end = time.time()
     print(f"Elapsed time: {end - start}s")
