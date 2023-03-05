@@ -9,6 +9,9 @@ flask = "*"
 flask-sqlalchemy = "*"
 beautifulsoup4 = "*"
 requests = "*"
+twine = "*"
+setuptools = "*"
+wheel = "*"
 
 [dev-packages]
 
