@@ -15,7 +15,7 @@ def unpack_df(df):
     for (colName, colData) in df.items():
         a.append(colName)
         for d in colData:
-            a.append(d)
+            a.append(str(d))
 
     return a
 
@@ -37,7 +37,12 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
     # Unpack names based on player number
     names = []
     for num in team_numbers:
-        names.append(teams[ateam][str(num)])
+        try:
+            names.append(teams[ateam][str(num)])
+        except:
+            print("Failed to match players against shirt numbers - check constants.py")
+            return None
+    print(f"Players names from {ateam}: {names}")
 
 	# call the function for each item in parallel
     pool = multiprocessing.Pool()
@@ -59,6 +64,7 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
             (file, upper_bound, 530, lower_bound, 560, debug),
             (file, upper_bound, 560, lower_bound, 580, debug)]
     result =  [names]
+    # Outputs returned in order 
     for res in pool.starmap(scrape_pdf, conf):
         result.append(res)
 
@@ -79,13 +85,23 @@ def process_pdf(file, debug):
             print(f"Failed to resolve team name: {team2}")
             return
 
+        print(f"Match: {ateam1} - {ateam2}")
         result = scrape_pdf(file, 40, 550, 85, 570, debug)
+        print(f"Result: {result}")
         date = scrape_pdf(file, 105, 70, 115, 150, debug)
+        print(f"Date: {date}")
         location = scrape_pdf(file, 120, 70, 135, 150, debug)
-        print(result, date, location)
+        print(f"Location: {location}")
+        if debug:
+            print(result, date, location)
 
         players1 = extract_players(TEAM1_UB, TEAM1_LB, ateam1, file, debug)
+        print("======================================================================")
+        print(players1)
         players2 = extract_players(TEAM2_UB, TEAM2_LB, ateam2, file, debug)
+        print("----------------------------------------------------------------------")
+        print(players2)
+        print("======================================================================")
 
         return result, date, location, ateam1, ateam2, players1, players2
     except:

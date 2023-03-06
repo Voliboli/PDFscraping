@@ -59,6 +59,7 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
             (file, upper_bound, 530, lower_bound, 560, debug),
             (file, upper_bound, 560, lower_bound, 580, debug)]
     result =  [names]
+    # Outputs returned in order 
     for res in pool.starmap(scrape_pdf, conf):
         result.append(res)
 
@@ -82,10 +83,12 @@ def process_pdf(file, debug):
         result = scrape_pdf(file, 40, 550, 85, 570, debug)
         date = scrape_pdf(file, 105, 70, 115, 150, debug)
         location = scrape_pdf(file, 120, 70, 135, 150, debug)
-        print(result, date, location)
+        if debug:
+            print(result, date, location)
 
         players1 = extract_players(TEAM1_UB, TEAM1_LB, ateam1, file, debug)
         players2 = extract_players(TEAM2_UB, TEAM2_LB, ateam2, file, debug)
+        print(players1)
 
         return result, date, location, ateam1, ateam2, players1, players2
     except:

@@ -12,6 +12,7 @@ requests = "*"
 twine = "*"
 setuptools = "*"
 wheel = "*"
+voliboli-pdf-scraper = {editable = true, path = "."}
 
 [dev-packages]
 
