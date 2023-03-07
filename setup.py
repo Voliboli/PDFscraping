@@ -8,6 +8,6 @@ setup(
     description='Voliboli PDF Scraper',
     author='Teodor Janez Podobnik',
     license='MIT',
-    install_requires=[],
+    install_requires=["tabula-py", "numpy"],
     test_suite='tests'
 )

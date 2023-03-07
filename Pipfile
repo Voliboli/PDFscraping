@@ -5,16 +5,12 @@ name = "pypi"
 
 [packages]
 tabula-py = "*"
-flask = "*"
-flask-sqlalchemy = "*"
-beautifulsoup4 = "*"
-requests = "*"
-twine = "*"
 setuptools = "*"
 wheel = "*"
-voliboli-pdf-scraper = {editable = true, path = "."}
+numpy = "*"
 
 [dev-packages]
+pipenv-setup = "*"
 
 [requires]
 python_version = "3.10"
