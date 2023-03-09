@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e33800937cb453c521c31ed81e4a19bb1b6fbba6eeada13c5551d6a9b04ef518"
+            "sha256": "a757c5f9fbd5600793b0bf5886654bd2534dacb32e699f753685c0c1851ce1b2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -108,11 +108,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535",
-                "sha256:1c39d42bda4cb89f7fdcad52b6762e3c309ec8f8715b27c684176b7d71283242"
+                "sha256:2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077",
+                "sha256:b78aaa36f6b90a074c1fa651168723acbf45d14cb1196b6f02c0fd07f17623b2"
             ],
             "index": "pypi",
-            "version": "==67.5.1"
+            "version": "==67.6.0"
         },
         "six": {
             "hashes": [
@@ -129,6 +129,15 @@
             ],
             "index": "pypi",
             "version": "==2.7.0"
+        },
+        "voliboli-pdf-scraper": {
+            "hashes": [
+                "sha256:2675887763e2e2f2d5676555e74a3c0971f44d1ffaf393a57442c41bb2a6e10b",
+                "sha256:99b744fecb15c6f538ed272e4ea166588afc45037a8497ca02e82e0ce846a462",
+                "sha256:a6b92e9011fdcc937bae73775585a8c2229148e45dd906de2a8d2e18ebea37f4"
+            ],
+            "index": "pypi",
+            "version": "==1.0"
         },
         "wheel": {
             "hashes": [
@@ -387,11 +396,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535",
-                "sha256:1c39d42bda4cb89f7fdcad52b6762e3c309ec8f8715b27c684176b7d71283242"
+                "sha256:2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077",
+                "sha256:b78aaa36f6b90a074c1fa651168723acbf45d14cb1196b6f02c0fd07f17623b2"
             ],
             "index": "pypi",
-            "version": "==67.5.1"
+            "version": "==67.6.0"
         },
         "six": {
             "hashes": [

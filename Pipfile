@@ -8,6 +8,7 @@ tabula-py = "*"
 setuptools = "*"
 wheel = "*"
 numpy = "*"
+voliboli-pdf-scraper = "*"
 
 [dev-packages]
 pipenv-setup = "*"
