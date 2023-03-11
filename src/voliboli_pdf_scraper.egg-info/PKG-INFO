@@ -21,7 +21,12 @@ You can run test from the root of this repository using:
 
 ## Distribute
 
-You can install this package locally from any other project using:
+To generate the distribution archives, run:
+
+    python3 -m pip install --upgrade build
+    python3 -m build
+
+You can then install this package locally from any other project using:
 
     pip install -e /path/to/root
 

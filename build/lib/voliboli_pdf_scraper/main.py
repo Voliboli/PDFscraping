@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import logging
 import tabula as tb
 import multiprocessing
 from .constants import *
@@ -28,7 +29,7 @@ def autocomplete_teamname(name):
 def scrape_pdf(file, upper_bound, left_bound, lower_bound, right_bound, debug):
     res = tb.read_pdf(file, area = (upper_bound, left_bound, lower_bound, right_bound), pages = '1')[0]
     if debug:
-        print(res)
+        logging.debug(res)
 
     return unpack_df(res)
     
@@ -40,9 +41,9 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
         try:
             names.append(teams[ateam][str(num)])
         except:
-            print("Failed to match players against shirt numbers - check constants.py")
+            logging.error("Failed to match players against shirt numbers - check constants.py")
             return None
-    print(f"Players names from {ateam}: {names}")
+    logging.info(f"Players names from {ateam}: {names}")
 
 	# call the function for each item in parallel
     pool = multiprocessing.Pool()
@@ -75,33 +76,31 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
     return transposed
 
 def process_pdf(file, debug):
+    logging.info("Processing PDF...")
     try:
         game = scrape_pdf(file, 40, 300, 85, 480, debug)
         team1, team2 = game
         if (ateam1 := autocomplete_teamname(team1)) is None:
-            print(f"Failed to resolve team name: {team1}")
+            logging.error(f"Failed to resolve team name: {team1}")
             return
         if (ateam2 := autocomplete_teamname(team2)) is None:
-            print(f"Failed to resolve team name: {team2}")
+            logging.error(f"Failed to resolve team name: {team2}")
             return
 
-        print(f"Match: {ateam1} - {ateam2}")
+        logging.info(f"Match: {ateam1} - {ateam2}")
         result = scrape_pdf(file, 40, 550, 85, 570, debug)
-        print(f"Result: {result}")
+        logging.info(f"Result: {result}")
         date = scrape_pdf(file, 105, 70, 115, 150, debug)
-        print(f"Date: {date}")
+        logging.info(f"Date: {date}")
         location = scrape_pdf(file, 120, 70, 135, 150, debug)
-        print(f"Location: {location}")
+        logging.info(f"Location: {location}")
         if debug:
-            print(result, date, location)
+            logging.debug(result, date, location)
 
         players1 = extract_players(TEAM1_UB, TEAM1_LB, ateam1, file, debug)
-        print("======================================================================")
-        print(players1)
+        logging.info(players1)
         players2 = extract_players(TEAM2_UB, TEAM2_LB, ateam2, file, debug)
-        print("----------------------------------------------------------------------")
-        print(players2)
-        print("======================================================================")
+        logging.info(players2)
 
         return result, date, location, ateam1, ateam2, players1, players2
     except:
