@@ -4,10 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tabula-py = "*"
-setuptools = "*"
-wheel = "*"
-numpy = "*"
+tabula-py = "2.7.0"
+setuptools = "67.6.0"
+wheel = "0.38.4"
+numpy = "1.24.2"
 voliboli-pdf-scraper = {editable = true, path = "."}
 
 [dev-packages]
