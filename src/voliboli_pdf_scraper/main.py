@@ -5,7 +5,7 @@ import multiprocessing
 from .constants import *
 import numpy as np
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 # boundaries
 TEAM1_UB = 180
@@ -81,6 +81,7 @@ def process_pdf(file, debug):
     logging.info("Processing PDF...")
     try:
         game = scrape_pdf(file, 40, 300, 85, 480, debug)
+        logging.info(game)
         team1, team2 = game
         if (ateam1 := autocomplete_teamname(team1)) is None:
             logging.error(f"Failed to resolve team name: {team1}")
@@ -105,5 +106,6 @@ def process_pdf(file, debug):
         logging.info(players2)
 
         return result, date, location, ateam1, ateam2, players1, players2
-    except:
+    except Exception as e:
+        logging.error(e)
         return None

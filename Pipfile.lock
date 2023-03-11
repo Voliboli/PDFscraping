@@ -1,4 +1,4 @@
-{
+pip install voliboli-pdf-scraper==1.1{
     "_meta": {
         "hash": {
             "sha256": "b9ec2bb620c45a3b4aaa454838f0ea403dd46c92f6829f40c1f63d2d6962ce8e"

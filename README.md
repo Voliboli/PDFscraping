@@ -18,3 +18,9 @@ You can then install this package locally from any other project using:
     pip install -e /path/to/root
 
 where `root` is the top-level directory of this project.
+
+## New Release
+
+To deploy a new version you can use the following commands:
+
+    twine upload --skip-existing dist/*

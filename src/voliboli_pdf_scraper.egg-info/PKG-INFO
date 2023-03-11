@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: voliboli-pdf-scraper
-Version: 1.0
+Version: 1.3
 Summary: Voliboli PDF Scraper
 Author: Teodor Janez Podobnik
 Author-email: teo.podobnik1234@gmail.com
@@ -31,3 +31,9 @@ You can then install this package locally from any other project using:
     pip install -e /path/to/root
 
 where `root` is the top-level directory of this project.
+
+## New Release
+
+To deploy a new version you can use the following commands:
+
+    twine upload --skip-existing dist/*
