@@ -4,7 +4,7 @@ from voliboli_pdf_scraper.main import process_pdf
 
 class TestPDFScraper(unittest.TestCase):
     STAT_DIRECTORY = 'stats'
-    DEBUG = True
+    DEBUG = False
 
     def test_processing(self):
         for f in os.listdir(self.STAT_DIRECTORY):

@@ -226,4 +226,3 @@ teams_women = {
                "18": "Halužan Sagadin Žana",
                "21": "Bračič Neja"}
 }
-teams = teams_men + teams_women

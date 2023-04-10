@@ -5,6 +5,8 @@ import multiprocessing
 from .constants import *
 import numpy as np
 
+logging.basicConfig(level=logging.INFO)
+
 # boundaries
 TEAM1_UB = 180
 TEAM1_LB = 340
@@ -21,31 +23,42 @@ def unpack_df(df):
     return a
 
 def autocomplete_teamname(name):
-    for n in team_names:
-        if name in n:
-            return n 
+    for m,w in zip(team_names_men, team_names_women):
+        if name in m:
+            return m
+        elif name in w:
+            return w
     return None
 
 def scrape_pdf(file, upper_bound, left_bound, lower_bound, right_bound, debug):
     res = tb.read_pdf(file, area = (upper_bound, left_bound, lower_bound, right_bound), pages = '1')[0]
-    if debug:
-        logging.debug(res)
+    if debug: logging.debug(res)
 
     return unpack_df(res)
-    
+
+def resolve_names(numbers, teams, team, gender):
+    names = []
+    for num in numbers:
+        try:
+            names.append(teams[team][str(num)])
+        except:
+            logging.warning(f"Failed to match shirt number #{num} to a {gender} in team {team}!")
+            return None
+    return names
+
 def extract_players(upper_bound, lower_bound, ateam, file, debug):
     team_numbers = scrape_pdf(file, upper_bound, 20, lower_bound, 40, debug)
-    # Unpack names based on player number
-    names = []
-    for num in team_numbers:
-        try:
-            names.append(teams[ateam][str(num)])
-        except:
-            logging.error("Failed to match players against shirt numbers - check constants.py")
-            return None
-    logging.info(f"Players names from {ateam}: {names}")
 
-	# call the function for each item in parallel
+    # Unpack names based on player number - men's (in case of failure try women's)
+    names = resolve_names(team_numbers, teams_men, ateam, 'men')
+    if names is None:
+        names = resolve_names(team_numbers, teams_women, ateam, 'women')
+    if not names:
+        raise Exception("Failed to resolve numbers to names while processing")
+
+    if debug: logging.info(f"Players names from {ateam}: {names}")
+
+    # call the function for each item in parallel
     pool = multiprocessing.Pool()
     conf = [(file, upper_bound, 190, lower_bound, 240, debug),
             (file, upper_bound, 230, lower_bound, 250, debug),
@@ -76,9 +89,10 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
     return transposed
 
 def process_pdf(file, debug):
-    logging.info("Processing PDF...")
+    if debug: logging.info("Processing PDF...")
     try:
         game = scrape_pdf(file, 40, 300, 85, 480, debug)
+        if debug: logging.info(game)
         team1, team2 = game
         if (ateam1 := autocomplete_teamname(team1)) is None:
             logging.error(f"Failed to resolve team name: {team1}")
@@ -87,21 +101,21 @@ def process_pdf(file, debug):
             logging.error(f"Failed to resolve team name: {team2}")
             return
 
-        logging.info(f"Match: {ateam1} - {ateam2}")
+        if debug: logging.info(f"Match: {ateam1} - {ateam2}")
         result = scrape_pdf(file, 40, 550, 85, 570, debug)
-        logging.info(f"Result: {result}")
+        if debug: logging.info(f"Result: {result}")
         date = scrape_pdf(file, 105, 70, 115, 150, debug)
-        logging.info(f"Date: {date}")
+        if debug: logging.info(f"Date: {date}")
         location = scrape_pdf(file, 120, 70, 135, 150, debug)
-        logging.info(f"Location: {location}")
-        if debug:
-            logging.debug(result, date, location)
+        if debug: logging.info(f"Location: {location}")
+        if debug: logging.debug(result, date, location)
 
         players1 = extract_players(TEAM1_UB, TEAM1_LB, ateam1, file, debug)
-        logging.info(players1)
+        if debug: logging.info(players1)
         players2 = extract_players(TEAM2_UB, TEAM2_LB, ateam2, file, debug)
-        logging.info(players2)
+        if debug: logging.info(players2)
 
         return result, date, location, ateam1, ateam2, players1, players2
-    except:
+    except Exception as e:
+        logging.error(e)
         return None
