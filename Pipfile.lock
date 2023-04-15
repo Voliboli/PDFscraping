@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4b7473cad81492ae4c1949a72cc8809edc007ba6aa4d2cd5c90d583d06e32abf"
+            "sha256": "400aaba53e49ff0ed83617eb09fe75a0f320f3b97e97e11b417790cae5af4b1c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -269,6 +269,14 @@
         "voliboli-pdf-scraper": {
             "editable": true,
             "path": "."
+        },
+        "voliboli-sgqlc-types": {
+            "hashes": [
+                "sha256:47a8cb316c8de1376d39a38585d924f4df7f0c5f687fa570426916a82d5be1e5",
+                "sha256:844eb0d2474b3344bbf6ac7577a20fd35775f9d95840a571f898220fe93d5f1e"
+            ],
+            "index": "pypi",
+            "version": "==1.9"
         },
         "wheel": {
             "hashes": [

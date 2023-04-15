@@ -36,13 +36,13 @@ def scrape_pdf(file, upper_bound, left_bound, lower_bound, right_bound, debug):
 
     return unpack_df(res)
 
-def resolve_names(numbers, teams, team, gender):
+def resolve_names(numbers, teams, team, gender, debug):
     names = []
     for num in numbers:
         try:
             names.append(teams[team][str(num)])
         except:
-            logging.warning(f"Failed to match shirt number #{num} to a {gender} in team {team}!")
+            if debug: logging.warning(f"Failed to match shirt number #{num} to a {gender} in team {team}!")
             return None
     return names
 
@@ -50,9 +50,9 @@ def extract_players(upper_bound, lower_bound, ateam, file, debug):
     team_numbers = scrape_pdf(file, upper_bound, 20, lower_bound, 40, debug)
 
     # Unpack names based on player number - men's (in case of failure try women's)
-    names = resolve_names(team_numbers, teams_men, ateam, 'men')
+    names = resolve_names(team_numbers, teams_men, ateam, 'men', debug)
     if names is None:
-        names = resolve_names(team_numbers, teams_women, ateam, 'women')
+        names = resolve_names(team_numbers, teams_women, ateam, 'women', debug)
     if not names:
         raise Exception("Failed to resolve numbers to names while processing")
 

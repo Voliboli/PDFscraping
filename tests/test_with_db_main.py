@@ -11,7 +11,7 @@ class TestPDFScraper(unittest.TestCase):
     DEBUG = False
 
     def setUp(self):
-        self.BASE = "http://172.34.1.3:5000"
+        self.BASE = "http://172.35.1.3:5000"
 
     def store_data(self, team, players, date):
         mutation = Operation(Mutation)
