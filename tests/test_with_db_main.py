@@ -13,7 +13,7 @@ class TestPDFScraper(unittest.TestCase):
     def setUp(self):
         self.BASE = "http://172.35.1.3:5000"
 
-    def store_data(self, team, players, date):
+    def store_data(self, team, opponent, players, date):
         mutation = Operation(Mutation)
         mutation.createTeam(name=team)
         resp = requests.post(self.BASE + "/teams", json={'query': str(mutation)})
@@ -46,7 +46,8 @@ class TestPDFScraper(unittest.TestCase):
                                     pointsAttack=p[15],
                                     posAttack=p[16],
                                     pointsBlock=p[17],
-                                    dateTeam=date)
+                                    opponent=opponent,
+                                    date=date)
             resp = requests.post(self.BASE + "/players", json={'query': str(mutation)})
             if not resp.json()["data"]["updatePlayer"]["success"]:
                 sys.exit(resp.json()["data"]["updatePlayer"]["errors"])
@@ -56,8 +57,8 @@ class TestPDFScraper(unittest.TestCase):
             print(f"Processing {f} file...")
             file = os.path.join(self.STAT_DIRECTORY, f)
             result, date, location, ateam1, ateam2, players1, players2 = process_pdf(file, debug=self.DEBUG)
-            self.store_data(ateam1, players1, date)
-            self.store_data(ateam2, players2, date)
+            self.store_data(ateam1, ateam2, players1, date)
+            self.store_data(ateam2, ateam1, players2, date)
 
 if __name__ == '__main__':
     unittest.main()
