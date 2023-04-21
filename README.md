@@ -1,5 +1,7 @@
 # Voliboli PDF Scraper
 
+Main repository for scraping data of off installed statistics that are in PDF format. Data is stored in a Postgres database with the help of Flask server and GraphQL protocol.
+
 ## Tests
 
 You can run test from the root of this repository using:
