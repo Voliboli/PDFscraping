@@ -13,6 +13,10 @@ License-File: LICENSE.md
 
 # Voliboli PDF Scraper
 
+Main repository for scraping data of off installed statistics that are in PDF format. Data is stored in a Postgres database with the help of Flask server and GraphQL protocol.
+
+![image](https://user-images.githubusercontent.com/48418580/233640399-525d336e-ad3f-449a-b311-060489326123.png)
+
 ## Tests
 
 You can run test from the root of this repository using:
