@@ -58,6 +58,7 @@ if __name__ == '__main__':
         secure=False # NOTE: ATM both services running on a local cluster
     )
     for object_name in minio_client.list_objects():
+        print(f"Storing {object_name}...")
         try:
             bucket_name = "voliboli"
             data = minio_client.get_object(bucket_name, object_name)
