@@ -1,11 +1,13 @@
 import os
 import sys
 import requests
+from minio import Minio
+from minio.error import S3Error
 from voliboli_pdf_scraper.main import process_pdf
 from voliboli_sgqlc_types.main import Mutation
 from sgqlc.operation import Operation
 
-BASE = "http://voliboli-backend:5000"
+BASE = "http://voliboli-backend.voliboli.svc.cluster.local"
 
 def store_data(team, opponent, players, date):
     mutation = Operation(Mutation)
@@ -47,11 +49,21 @@ def store_data(team, opponent, players, date):
             sys.exit(resp.json()["data"]["updatePlayer"]["errors"])
             
 if __name__ == '__main__':
-    STAT_DIRECTORY = 'stats'
-    DEBUG = False
-    for f in os.listdir(STAT_DIRECTORY):
-        print(f"Processing {f} file...")
-        file = os.path.join(STAT_DIRECTORY, f)
-        result, date, location, ateam1, ateam2, players1, players2 = process_pdf(file, debug=DEBUG)
-        store_data(ateam1, ateam2, players1, date)
-        store_data(ateam2, ateam1, players2, date)
+    ACCESS_KEY = os.environ["MINIO_ACCESS_KEY"]
+    SECRET_KEY = os.environ["MINIO_SECRET_KEY"]
+    minio_client = Minio(
+        "minio.minio.svc:9000",
+        access_key=ACCESS_KEY,
+        secret_key=SECRET_KEY,
+        secure=False # NOTE: ATM both services running on a local cluster
+    )
+    for object_name in minio_client.list_objects():
+        try:
+            bucket_name = "voliboli"
+            data = minio_client.get_object(bucket_name, object_name)
+            result, date, location, ateam1, ateam2, players1, players2 = process_pdf(data, debug=None)
+            store_data(ateam1, ateam2, players1, date)
+            store_data(ateam2, ateam1, players2, date)
+        except S3Error as e:
+            print("Error reading JSON from MinIO:", e)
+            sys.exit(1)

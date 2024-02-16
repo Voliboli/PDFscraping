@@ -55,6 +55,6 @@ jobs:
       
     - name: Build and Push WebScraper to Harbor
       run: |
-        docker build . -t ${{ secrets.HARBOR_URL  }}/voliboli/process:${{ steps.semver.outputs.next }}
-        # pack build ${{ secrets.HARBOR_URL  }}/voliboli/process:${{ steps.semver.outputs.next }} --path . --buildpack paketo-buildpacks/python --builder paketobuildpacks/builder:base
-        docker push ${{ secrets.HARBOR_URL  }}/voliboli/process:${{ steps.semver.outputs.next }}
+        docker build . -t ${{ secrets.HARBOR_URL  }}/voliboli/pdfscraper:${{ steps.semver.outputs.next }}
+        # pack build ${{ secrets.HARBOR_URL  }}/voliboli/pdfscraper:${{ steps.semver.outputs.next }} --path . --buildpack paketo-buildpacks/python --builder paketobuildpacks/builder:base
+        docker push ${{ secrets.HARBOR_URL  }}/voliboli/pdfscraper:${{ steps.semver.outputs.next }}
