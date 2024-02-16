@@ -15,3 +15,4 @@ tzdata==2023.3
 urllib3==2.0.2
 voliboli-pdf-scraper==1.5
 voliboli-sgqlc-types==1.10
+minio==7.2.4
