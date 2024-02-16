@@ -1,0 +1,17 @@
+certifi==2023.5.7
+charset-normalizer==3.1.0
+distro==1.8.0
+graphql-core==3.2.3
+idna==3.4
+numpy==1.24.3
+pandas==2.0.1
+python-dateutil==2.8.2
+pytz==2023.3
+requests==2.30.0
+sgqlc==16.1
+six==1.16.0
+tabula-py==2.7.0
+tzdata==2023.3
+urllib3==2.0.2
+voliboli-pdf-scraper==1.5
+voliboli-sgqlc-types==1.10
