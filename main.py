@@ -57,10 +57,10 @@ if __name__ == '__main__':
         secret_key=SECRET_KEY,
         secure=False # NOTE: ATM both services running on a local cluster
     )
-    for object_name in minio_client.list_objects():
+    bucket_name = "voliboli"
+    for object_name in minio_client.list_objects(bucket_name):
         print(f"Storing {object_name}...")
         try:
-            bucket_name = "voliboli"
             data = minio_client.fget_object(bucket_name, object_name)
             result, date, location, ateam1, ateam2, players1, players2 = process_pdf(data, debug=None)
             store_data(ateam1, ateam2, players1, date)
