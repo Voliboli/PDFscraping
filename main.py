@@ -55,7 +55,7 @@ if __name__ == '__main__':
         "minio.minio.svc:9000",
         access_key=ACCESS_KEY,
         secret_key=SECRET_KEY,
-        secure=False # NOTE: ATM both services running on a local cluster
+        secure=False # NOTE: At the moment both services running on a local cluster
     )
     bucket_name = "voliboli"
     for object_name in minio_client.list_objects(bucket_name):
