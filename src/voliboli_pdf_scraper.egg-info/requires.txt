@@ -1,2 +1,2 @@
-tabula-py
 numpy
+tabula-py

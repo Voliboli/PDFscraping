@@ -2,7 +2,7 @@
 import logging
 import tabula as tb
 import multiprocessing
-from .constants import *
+from .constants_2023_24 import *
 import numpy as np
 
 logging.basicConfig(level=logging.INFO)
