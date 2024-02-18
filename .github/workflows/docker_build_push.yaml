@@ -53,7 +53,7 @@ jobs:
         release_name: ${{ steps.semver.outputs.next }}
         body: ${{ steps.changelog.outputs.changelog }}
       
-    - name: Build and Push WebScraper to Harbor
+    - name: Build and Push PDFScraper to Harbor
       run: |
         docker build . -t ${{ secrets.HARBOR_URL  }}/voliboli/pdfscraper:${{ steps.semver.outputs.next }}
         # pack build ${{ secrets.HARBOR_URL  }}/voliboli/pdfscraper:${{ steps.semver.outputs.next }} --path . --buildpack paketo-buildpacks/python --builder paketobuildpacks/builder:base
