@@ -13,6 +13,7 @@ def store_data(team, opponent, players, date):
     mutation = Operation(Mutation)
     mutation.createTeam(name=team)
     resp = requests.post(BASE + "/teams", json={'query': str(mutation)})
+    print(resp.json())
     if not resp.json()["data"]["createTeam"]["success"]:
         print(resp.json()["data"]["createTeam"]["errors"])
 
@@ -62,7 +63,8 @@ if __name__ == '__main__':
         print(f"Storing {item.object_name}...")
         try:
             r = minio_client.fget_object(bucket_name, item.object_name, f"/tmp/{item.object_name}")
-            result, date, location, ateam1, ateam2, players1, players2 = process_pdf(f"/tmp/{item.object_name}", debug=None)
+            result, date, location, ateam1, ateam2, players1, players2 = process_pdf(f"/tmp/{item.object_name}", debug=True)
+            print(result, date, location, ateam1, ateam2, players1, players2)
             store_data(ateam1, ateam2, players1, date)
             store_data(ateam2, ateam1, players2, date)
         except S3Error as e:

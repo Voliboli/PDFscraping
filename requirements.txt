@@ -13,6 +13,6 @@ six==1.16.0
 tabula-py==2.7.0
 tzdata==2023.3
 urllib3==2.0.2
-voliboli-pdf-scraper==1.5
+voliboli-pdf-scraper==1.8
 voliboli-sgqlc-types==1.10
 minio==7.2.4

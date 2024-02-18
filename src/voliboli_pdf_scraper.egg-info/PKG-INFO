@@ -1,10 +1,12 @@
 Metadata-Version: 2.1
 Name: voliboli-pdf-scraper
-Version: 1.7
+Version: 1.8
 Summary: Voliboli PDF Scraper
+Home-page: UNKNOWN
 Author: Teodor Janez Podobnik
 Author-email: teo.podobnik1234@gmail.com
 License: MIT
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -41,3 +43,5 @@ where `root` is the top-level directory of this project.
 To deploy a new version you can use the following commands:
 
     twine upload --skip-existing dist/*
+
+

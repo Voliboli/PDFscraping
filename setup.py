@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='voliboli_pdf_scraper',
-    version='1.7',
+    version='1.8',
     package_dir= {"": "src"},
     packages=find_packages(where="src"),
     description='Voliboli PDF Scraper',
