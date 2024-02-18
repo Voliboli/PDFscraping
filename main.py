@@ -61,7 +61,7 @@ if __name__ == '__main__':
     for object_name in minio_client.list_objects(bucket_name):
         print(f"Storing {object_name}...")
         try:
-            data = minio_client.fget_object(bucket_name, object_name)
+            data = minio_client.get_object(bucket_name, object_name)
             print(data)
             result, date, location, ateam1, ateam2, players1, players2 = process_pdf(data, debug=None)
             store_data(ateam1, ateam2, players1, date)
