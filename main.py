@@ -58,12 +58,11 @@ if __name__ == '__main__':
         secure=False # NOTE: At the moment both services running on a local cluster
     )
     bucket_name = "voliboli"
-    for object_name in minio_client.list_objects(bucket_name):
-        print(f"Storing {object_name}...")
+    for item in minio_client.list_objects(bucket_name,recursive=True):
+        print(f"Storing {item.object_name}...")
         try:
-            data = minio_client.fget_object(bucket_name, object_name)
-            print(data)
-            result, date, location, ateam1, ateam2, players1, players2 = process_pdf(data, debug=None)
+            r = minio_client.fget_object(bucket_name, item.object_name, f"/tmp/{item.object_name}")
+            result, date, location, ateam1, ateam2, players1, players2 = process_pdf(f"/tmp/{item.object_name}", debug=None)
             store_data(ateam1, ateam2, players1, date)
             store_data(ateam2, ateam1, players2, date)
         except S3Error as e:
