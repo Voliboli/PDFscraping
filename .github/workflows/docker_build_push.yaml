@@ -6,7 +6,7 @@ on:
 
 jobs:
   buildandpush:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-kubernetes-voliboli
 
     steps:
     - name: checkout repository code
